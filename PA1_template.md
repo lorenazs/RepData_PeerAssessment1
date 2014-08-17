@@ -2,7 +2,7 @@
 ================================================================
 Submitted by Lorena Zuniga
 
-In this asignment 
+
 
 
 ## Loading and preprocessing the data
@@ -57,7 +57,7 @@ plot(activityPattern$Interval, activityPattern$Average, type = "l", xlab = "Inte
     ylab = "Average Steps", main = "Average steps taken by 5-minute interval")
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+![plot of chunk averageSteps](figure/averageSteps.png) 
 
 
 ## Imputing missing values
@@ -114,7 +114,7 @@ In this case the mean and median obtained are practically the same as before the
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-Adding a new column (typeOfDay) in order to indicate if the day is a weekday or a weekend day
+Adding a new column (typeOfDay) to the dataframe in order to indicate if the day is a weekday or a weekend day
 
 ```r
 activityData_all$typeOfDay <- ifelse(weekdays(activityData_all$date) == "Saturday" | 
@@ -122,4 +122,19 @@ activityData_all$typeOfDay <- ifelse(weekdays(activityData_all$date) == "Saturda
 ```
 
 
+### Plotting the average number of steps taken (y axis) on weekdays or weekend days (x-axis)
+
+
+```r
+library(lattice)
+attach(activityData_all)
+avgData <- aggregate(activityData_all$steps, by = list(interval, typeOfDay), 
+    FUN = mean)
+detach(activityData_all)
+colnames(avgData) <- c("interval", "typeOfDay", "average")
+xyplot(avgData$average ~ avgData$interval | avgData$typeOfDay, data = avgData, 
+    layout = c(1, 2), type = "l", ylab = "Number of steps", xlab = "Interval")
+```
+
+![plot of chunk weeks](figure/weeks.png) 
 

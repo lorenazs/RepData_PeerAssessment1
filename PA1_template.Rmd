@@ -2,7 +2,7 @@
 ================================================================
 Submitted by Lorena Zuniga
 
-In this asignment 
+
 
 
 ## Loading and preprocessing the data
@@ -41,7 +41,7 @@ The mean is `r theMean`  and the median is `r theMedian`
 
 
 ## What is the average daily activity pattern?
-```{r, echo=TRUE}
+```{r averageSteps, echo=TRUE}
   activityPattern <-aggregate(activityData$steps,list(activityData$interval),FUN=mean)
   
   colnames(activityPattern) <- c('Interval','Average')
@@ -102,3 +102,13 @@ Adding a new column (typeOfDay) to the dataframe in order to indicate if the day
 
 ### Plotting the average number of steps taken (y axis) on weekdays or weekend days (x-axis)
 
+```{r weeks, echo=TRUE}
+   library(lattice)
+   attach(activityData_all)
+   avgData<-aggregate(activityData_all$steps,by=list(interval,typeOfDay),FUN=mean)  
+   detach(activityData_all)
+   colnames(avgData) <- c('interval','typeOfDay','average')
+    xyplot(avgData$average ~ avgData$interval | avgData$typeOfDay,data =avgData,layout=c(1,2),
+           type='l', ylab='Number of steps',xlab='Interval')
+   
+```
